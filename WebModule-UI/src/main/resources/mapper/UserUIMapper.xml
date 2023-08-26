@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demoui.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demoserve.entity.User">
+        <id column="userId" property="userId"/>
+        <result column="userName" property="userName"/>
+        <result column="password" property="password"/>
+    </resultMap>
+
+    <resultMap id="permMenuMap" type="com.example.demoui.dto.PermMenuTree">
+        <id column="permission_id" property="id"/>
+        <result column="permission_name" property="permissionName"/>
+        <result column="permission_url" property="permissionUrl"/>
+        <result column="permission_type" property="permissionType"/>
+        <result column="permission_key" property="permissionKey"/>
+        <result column="parent_id" property="parentId"/>
+        <collection property="children"
+                    column="{id=permission_id}"
+                    ofType="com.example.demoui.dto.PermMenuTree"
+                    select="selectPermListByPid">
+            <id column="permission_id" property="id"/>
+            <result column="permission_name" property="permissionName"/>
+            <result column="permission_url" property="permissionUrl"/>
+            <result column="permission_type" property="permissionType"/>
+            <result column="permission_key" property="permissionKey"/>
+            <result column="parent_id" property="parentId"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        userId, userName, password
+    </sql>
+    <select id="selectMenuByUser" resultMap="permMenuMap">
+        SELECT
+        permission.permission_id,
+        permission.permission_name,
+        permission.parent_id,
+        permission.permission_type,
+        permission.permission_key,
+        permission.permission_url
+        FROM
+        user
+        INNER JOIN user_role ON user.userid = user_role.userid
+        INNER JOIN role ON user_role.role_id = role.role_id
+        INNER JOIN role_permission ON role.role_id = role_permission.role_id
+        INNER JOIN permission  ON role_permission.permission_id = permission.permission_id
+        <where>
+            <if test="username != null">
+                AND user.userId = #{userId}
+            </if>
+            <if test="permissionType != null">
+                 AND permission.permission_type = #{permissionType}
+           </if>
+        </where>
+        order by permission.permission_id asc
+    </select>
+    <select id="selectPermListByPid" resultMap="permMenuMap">
+        select
+            permission_id,
+            parent_id,
+            permission_name,
+            permission_type,
+            permission_key,
+            permission_url
+        FROM
+            permission
+        WHERE
+            parent_id = #{id}
+    </select>
+
+    <select id="selectRoleByUserId" parameterType="String" resultType="com.example.demoui.dto.User_RoleInfo">
+        SELECT
+        user.userId AS userId,
+        user.userName AS username,
+        role.role_id AS roleId,
+        role.role_code AS roleCode,
+        role.role_name AS roleName
+        FROM
+        user
+        INNER JOIN user_role ON user.userId = user_role.userId
+        INNER JOIN role ON user_role.role_id = role.role_id
+        <where>
+        <if test="userId != null">
+            AND user.userId=#{userId}
+        </if>
+        </where>
+    </select>
+</mapper>

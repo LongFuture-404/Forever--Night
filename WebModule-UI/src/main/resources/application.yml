@@ -1,0 +1,47 @@
+# 自定义参数
+system:
+    verifyCode:
+        prefix: verifyCode
+    file:
+        upload:
+            path: F:/Mydownload/
+        view:
+            path: /view/
+server:
+  port: 8002
+spring:
+  datasource:
+    username: root
+    password: Zcl27272369250?
+    url: jdbc:mysql://localhost:3306/forever__night?serverTimeZone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    #    password: 123456
+    #    url: jdbc:mysql://10.26.10.181:3306/intelligent-scheduling?serverTimeZone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
+  mvc:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      #设置单个文件最大大小为10MB
+      max-request-size: 100MB
+      #设置多个文件大小为100MB
+
+  application:
+    name: Demo-UI
+
+  data:
+    redis:
+      port: 6379
+      host: localhost
+      database: 0
+
+mybatis-plus:
+    type-aliases-package: com.example.demoserve.entity
+    mapper-locations: classpath*:/mapper/*.xml
+
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://localhost:8761/eureka

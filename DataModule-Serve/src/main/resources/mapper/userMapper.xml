@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demoserve.dao.UserDao">
+
+    <select id="findUser" parameterType="String" resultType="com.example.demoserve.entity.User">
+        select * from user where userId=#{userId}</select>
+    <insert id="registerUser" parameterType="String">
+        insert into user(userId, password) value (#{userId},#{password})</insert>
+</mapper>

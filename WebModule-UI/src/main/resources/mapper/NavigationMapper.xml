@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demoui.mapper.NavigationMapper">
+
+    <resultMap id="navigationMenuMap" type="com.example.demoui.dto.NavigationTree">
+        <id column="first_navigation_id" property="id"/>
+        <result column="first_navigation_name" property="navigationName"/>
+        <result column="first_navigation_key" property="navigationKey"/>
+        <result column="first_navigation_able" property="navigationAble"/>
+        <collection property="second_navigation"
+                    ofType="com.example.demoui.dto.NavigationTree">
+            <id column="second_navigation_id" property="id"/>
+            <result column="second_navigation_name" property="navigationName"/>
+            <result column="second_navigation_url" property="navigationUrl"/>
+            <result column="second_navigation_able" property="navigationAble"/>
+            <result column="parent_id" property="parentId"/>
+        </collection>
+    </resultMap>
+    <select id="selectNavigation" resultMap="navigationMenuMap">
+        SELECT *
+        FROM first_navigation
+            INNER JOIN second_navigation ON first_navigation.first_navigation_id = second_navigation.parent_id
+    </select>
+</mapper>

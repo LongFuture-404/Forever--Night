@@ -1,0 +1,23 @@
+server:
+  port: 8761
+spring:
+  datasource:
+    username: root
+    password: Zcl27272369250?
+    url: jdbc:mysql://localhost:3306/forever__night?serverTimeZone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    #    password: 123456
+    #    url: jdbc:mysql://10.26.10.181:3306/intelligent-scheduling?serverTimeZone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
+
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    #   需要设置的地址：http://ip:port/eureka
+    service-url:
+      defaultZone: http://localhost:8761/eureka
