@@ -209,6 +209,7 @@ const inputEnd=()=>{
 //   console.log(e.srcElement)
 //   console.log(e.srcElement.selectionStart) //光标所在的位置
 // }
+
 </script>
 
 <template>

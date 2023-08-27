@@ -2,15 +2,15 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demoui.mapper.NavigationMapper">
+<mapper namespace="com.example.webmoduleui.mapper.NavigationMapper">
 
-    <resultMap id="navigationMenuMap" type="com.example.demoui.dto.NavigationTree">
+    <resultMap id="navigationMenuMap" type="com.example.webmoduleui.dto.NavigationTree">
         <id column="first_navigation_id" property="id"/>
         <result column="first_navigation_name" property="navigationName"/>
         <result column="first_navigation_key" property="navigationKey"/>
         <result column="first_navigation_able" property="navigationAble"/>
         <collection property="second_navigation"
-                    ofType="com.example.demoui.dto.NavigationTree">
+                    ofType="com.example.webmoduleui.dto.NavigationTree">
             <id column="second_navigation_id" property="id"/>
             <result column="second_navigation_name" property="navigationName"/>
             <result column="second_navigation_url" property="navigationUrl"/>

@@ -11,15 +11,6 @@
 <!--      <el-dialog v-model="upload.dialogVisible">-->
 <!--        <img class="avatar-upload-img" :src="upload.dialogImageUrl" alt="Preview Image" />-->
 <!--      </el-dialog>-->
-<!--    </el-form-item>-->
-<!--&lt;!&ndash;    <div class="thread_mess" id="thread_imgid" data-tid="67902">&ndash;&gt;-->
-<!--&lt;!&ndash;      <div class="message">点击跳转到百度首页：https://www.baidu.com[百度一下]  https://www.bilibili.com[哔站] https://t.bilibili.com/?spm_id_from=333.1007.0.0[哔站动态]</div>&ndash;&gt;-->
-<!--&lt;!&ndash;      <div>&ndash;&gt;-->
-<!--&lt;!&ndash;        <img src="../assets/logo.png">&ndash;&gt;-->
-<!--&lt;!&ndash;        <img style="width: 300px;height: 200px;" src="http://localhost:8002/view/1528961685699.png">&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--  </el-form>-->
 <!--  <button @click="jump">跳转</button>-->
 <!--    <el-button @click="get" style="position: absolute;left: 50%">图片</el-button>-->
 <!--    <el-image-->
@@ -98,11 +89,6 @@ const data=reactive({
 const iframeUrl=ref('/richTextFormat')
 store.commit('setTime',new Date().getTime())
 
-const content=reactive({
-  data:'点击跳转到百度首页：https://www.baidu.com[百度一下]  https://www.bilibili.com[哔站] https://t.bilibili.com/?spm_id_from=333.1007.0.0[哔站动态]\n' +
-          '        <img src="static/img/logo.png">\n' +
-      '        <img style="width: 300px;height: 200px;" src="http://localhost:8002/view/1528961685699.png">'
-})
 const get=()=> {
     data.visible = true
 }
@@ -180,29 +166,6 @@ const handleCurrentChange=(val)=> {
 }
 getUserList()
 
-// $(document).ready(function(){
-//   $(function() {
-//     let imgSRC=[]
-//     let textR=$('.thread_mess').html();
-//     let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)(\[)+((\w|\.|\/|\:|[\u4e00-\u9fa5])+)(\])+/g;
-//     // var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)(\[)*((\w|\.|\/|\:|[\u4e00-\u9fa5])*)(\])*/g;
-//     $.each($('.thread_mess img'),function(index,domEle){
-//       imgSRC.push(domEle.src)
-//     })
-//       imgSRC.forEach((item,index,arr)=>{
-//         if(reg.exec(item)){
-//           console.log(item+'    为imgSRC')
-//           // return true
-//         }else{
-//           textR = textR.replace(reg, "<a href='$1$2'>$5</a>");
-//           document.getElementById('thread_imgid').innerHTML = textR;
-//         }
-//         reg.lastIndex = 0;
-//         },
-//       )
-//     console.log(textR)
-//   });
-// });
 </script>
 <style scoped lang="scss">
 .textInput{
