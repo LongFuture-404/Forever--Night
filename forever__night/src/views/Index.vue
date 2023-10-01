@@ -11,6 +11,8 @@
 <!--      <el-dialog v-model="upload.dialogVisible">-->
 <!--        <img class="avatar-upload-img" :src="upload.dialogImageUrl" alt="Preview Image" />-->
 <!--      </el-dialog>-->
+<!--    </el-form-item>-->
+<!--  </el-form>-->
 <!--  <button @click="jump">跳转</button>-->
 <!--    <el-button @click="get" style="position: absolute;left: 50%">图片</el-button>-->
 <!--    <el-image-->

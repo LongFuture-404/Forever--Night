@@ -5,7 +5,8 @@ const state = {
         userName:''
     },
     isIndex:'false',
-    lastEditRange:{endContainer: {type:Node},endOffset:''},
+    lastEditRange:{endContainer: Node,endOffset: 0},
     time:'',
+    selection:Selection,
 }
 export { state }

@@ -17,6 +17,9 @@ const mutations={
     setTime(state,nowTime){
         state.time=nowTime
     },
+    setSelection(state,newSelection){
+        state.selection=newSelection
+    }
 }
 
 export {mutations};

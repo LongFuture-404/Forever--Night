@@ -1,14 +1,29 @@
 <script setup lang="ts">
 import {getCurrentInstance, nextTick, reactive, watch} from "vue";
-import {useDebounceRef} from "../debounceRef";
+// import {useDebounceRef} from "../debounceRef";
 import store from "../store";
+import "../assets/root.css"
+import {changeContent} from "../assets/changeContentNode";
+import {
+  upload,
+  pictureData,
+  beforeUpload,
+  handleExceed,
+  handlePictureCardPreview, handleRemove,
+  handleSuccess,
+  uploadFileError
+} from "../assets/pictureUpload";
 const { ctx } = getCurrentInstance()
 
 const data=reactive({
   debounceInput: () => {},
   // content:useDebounceRef('', 1000),
   content:'',
-  isInsert:0
+  isInsert:0,
+  userList: [],
+  total: 0,
+  pageNumber:1,
+  pageSize:10,
 })
 const linkUrl=reactive({
   url:'',
@@ -33,6 +48,10 @@ function debounce (func, delay, immediate) {
     }, delay)
   }
 }
+
+/**
+ * 输入完毕记录光标焦点位置
+ */
 let lastEditRange=reactive([])
 let selection=reactive(window.getSelection())
 const outContent=(value)=>{
@@ -50,8 +69,8 @@ const outContent=(value)=>{
 }
 data.debounceInput=debounce(outContent,1000,false)
 const getHref=(content)=> {
-  let fcontent = content.replace(/<p>/g,"").replace(/<\/p>/g,"\n");//去除p标签
-  let pContent=fcontent.split('\n')
+  let fContent = content.replace(/<p>/g,"").replace(/<\/p>/g,"\n");//去除p标签
+  let pContent=fContent.split('\n')
   let allContent='';
   // console.log('pContent:  '+pContent)
   if (!content) {
@@ -82,6 +101,9 @@ const getHref=(content)=> {
   // console.log(allContent)
   return allContent;
 }
+/**
+ * 查看内容同时不失去聚焦
+ */
 const setContent=()=>{
   nextTick(() => {
     // console.log(ctx.$refs['textarea'].innerHTML)
@@ -100,6 +122,7 @@ const rangeSet=() => {
     let flag=0
     nextTick(() => {
       let Node=ctx.$refs['textarea']
+      console.log(store.state.lastEditRange.endContainer)
       for(let i=0;i<Node.childNodes.length;i++){
         // console.log(store.state.lastEditRange.endContainer.data)
         // console.log(Node.childNodes[i].innerHTML.substring(0,store.state.lastEditRange.endOffset))
@@ -144,6 +167,15 @@ const uploadUrl=()=>{
   })
   // data.content=data.content+linkUrl.url+'['+linkUrl.name+']'
 }
+
+document.addEventListener("selectionchange", () => {
+
+});
+document.onselectionchange = () => {
+  if(selection.isCollapsed==false){
+    store.commit("setSelection",selection)
+  }
+};
 watch(()=>data.content,()=>{
   //防止登录时init()方法被重复执行
     rangeSet()
@@ -218,26 +250,40 @@ const inputEnd=()=>{
   <div class="textareaInput">
 <!--    <el-input v-model="data.content" @input="data.debounceInput"/>-->
 <!--    <input v-model="data.content" />-->
-    <div style="width: 100px;">
+    <div style="width: 200px;">
 <!--     @blur="blurEvent" 设置焦点丢失事件,只有input元素上才能获取到selectionEnd和selectionStart-->
       <el-input v-model="linkUrl.url" placeholder="地址"></el-input>
       <el-input v-model="linkUrl.name" placeholder="链接名"></el-input>
       <el-button @click="uploadUrl">链接提交</el-button>
+      <el-button @click="changeContent('strong','STRONG')"></el-button>
+      <el-button @click="changeContent('em','EM')"></el-button>
       <el-button @click="setContent">查看内容</el-button>
+      <el-upload class="upload-demo" :class="{reached_the_limit: upload.isReachedTheLimit}" action="http://localhost:8002/img" :show-file-list="true" :headers="pictureData.headers" :on-remove="handleRemove"
+                         :file-list="pictureData.fileList" list-type="picture-card" :limit="1" :on-exceed="handleExceed" :on-success="handleSuccess"
+                         :on-error="uploadFileError" :on-preview="handlePictureCardPreview" :before-upload="beforeUpload">
+        <img :src="pictureData.fileList" class="avatar"  alt=""/>
+        <el-icon class="avatar-uploader-icon"></el-icon>
+      </el-upload>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 *{
   -webkit-user-modify: read-write-plaintext-only;
+}
+.reached_the_limit {
+  :deep(.el-upload){
+    display: none;
+  }
 }
 .textareaInput{
   position: absolute;
   left: 20%;
 }
 .textarea{
-  width: 50%;height: 150px
+  width: var(--rich-text-width);
+  height: var(--rich-text-height);
 }
 /*为空时显示 element attribute content*/
 .textarea:empty:before{

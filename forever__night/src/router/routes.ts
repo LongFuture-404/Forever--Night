@@ -1,8 +1,9 @@
-import userLogin from '../views/userLogin.vue';
+import userLogin from '../views/userLogin.vue'
 import index from  '../views/Index.vue'
 import register from '../views/register.vue'
 import whiteHtml from '../views/supplierAllBack.vue'
 import richTextFormat from '../views/richTextFormat.vue'
+import rolePage from '../views/rolePage.vue'
 
 const routes = [
     { path: '/', meta:{title: '登录页面'}, component: userLogin },
@@ -11,6 +12,7 @@ const routes = [
         } },
     { path: '/register', meta:{requiresAuth: true,title: '用户管理页面'}, component: register },
     { path: '/white', meta:{title: '空白页面'}, component: whiteHtml },
+    { path: '/rolePage', component: rolePage },
     { path: '/richTextFormat', component: richTextFormat }
 ]
 

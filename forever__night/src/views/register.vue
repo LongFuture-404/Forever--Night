@@ -26,7 +26,7 @@ const data = reactive({
     userId: '',
     password: ''
 })
-let publicKey=sessionStorage.getItem('publicKey')
+// let publicKey=sessionStorage.getItem('publicKey')
 const init=()=>{
     proxy.$axios.get('/').then(response=> {
         sessionStorage.setItem('publicKey',response.data)
