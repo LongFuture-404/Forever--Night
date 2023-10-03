@@ -2,12 +2,6 @@
   <iframe class="textInput" :src=iframeUrl />
 <!--  <el-form label-position="top" label-width="380px">-->
 <!--    <el-form-item class="avatar-upload" label="头像">-->
-<!--      <el-upload class="upload-demo" :class="{reached_the_limit: upload.isReachedTheLimit}" action="http://localhost:8002/img" :show-file-list="true" :headers="data.headers" :on-remove="handleRemove"-->
-<!--                 :file-list="data.fileList" list-type="picture-card" :limit="1" :on-exceed="handleExceed" :on-success="handleSuccess"-->
-<!--                 :on-error="uploadFileError" :on-preview="handlePictureCardPreview" :before-upload="beforeUpload">-->
-<!--&lt;!&ndash;        <img :src="data.fileList" class="avatar"  alt=""/>&ndash;&gt;-->
-<!--        <el-icon class="avatar-uploader-icon"><Plus /></el-icon>-->
-<!--      </el-upload>-->
 <!--      <el-dialog v-model="upload.dialogVisible">-->
 <!--        <img class="avatar-upload-img" :src="upload.dialogImageUrl" alt="Preview Image" />-->
 <!--      </el-dialog>-->
@@ -55,80 +49,25 @@
 </template>
 
 <script setup lang="ts">
-import { Plus } from '@element-plus/icons-vue'
-import store from "../store/index.ts";
+import store from "../store/index";
 import {getCurrentInstance, reactive, ref} from "vue";
 import router from "../router";
-import {ElMessage, UploadProps} from "element-plus";
 
 let { proxy } = getCurrentInstance();
 
 // const publicKey = process.env.VUE_APP_PUBLICKEY
 // console.log('publicKey:  '+publicKey)
 
-const upload = reactive({
-  dialogImageUrl:'',
-  dialogVisible:false,
-  isReachedTheLimit:false
-})
-
-const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-  console.log(uploadFile)
-  upload.dialogImageUrl = uploadFile.url!
-  upload.dialogVisible = true
-}
 const data=reactive({
     userList: [],
     total: 0,
     pageNumber:1,
     pageSize:10,
-    headers: {Authorization: store.state.user.token},
-    imageUrl:'',
-    fileList: [],
     image:['http://localhost:8002/view/1528961685699.png','http://localhost:8002/view/1522571423608.png'],
-    visible: false
 })
 const iframeUrl=ref('/richTextFormat')
 store.commit('setTime',new Date().getTime())
 
-const get=()=> {
-    data.visible = true
-}
-const close=()=> {
-    data.visible = false
-}
-const handleSuccess=(res, file, fileList)=> {
-    let imageUrl = "http://localhost:8002/view/" + file.name;
-    data.imageUrl = imageUrl;
-    let obj = {url:'',name:''};
-    obj.url = imageUrl;
-    obj.name = file.name;
-    data.fileList.push(obj);
-  ElMessage({message: "头像图片上传成功",type:"success"});
-}
-const handleRemove=(file, fileList) =>{
-    data.fileList = [];
-    data.imageUrl = '';
-  upload.isReachedTheLimit=false
-    console.log(fileList);
-    console.log(data.imageUrl);
-}
-const handleExceed=(files, fileList) =>{
-    ElMessage({message: "上传文件个数不能超过1个"});
-}
-const uploadFileError=(files, fileList)=>{
-  if(data.fileList.length==0){
-    upload.isReachedTheLimit=false
-  }
-}
-const beforeUpload=(file)=> {
-  if(data.fileList.length==0){
-    upload.isReachedTheLimit=true
-  }
-    if (file.type != 'image/png') {
-        ElMessage({message: "上传文件类型仅支持png格式"});
-    }
-}
 const jump=()=>{
     proxy.uiService.post('/userManage',proxy.$qs.stringify({
         id:'1'
@@ -175,11 +114,6 @@ getUserList()
   height: 70%;
   position: absolute;
   left: 20%;
-}
-.reached_the_limit {
-  :deep(.el-upload){
-    display: none;
-  }
 }
 .avatar-upload-img{
   width: 100%;

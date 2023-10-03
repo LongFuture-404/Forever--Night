@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {getCurrentInstance, nextTick, reactive, watch} from "vue";
+import {getCurrentInstance, nextTick, reactive, watch, onBeforeUnmount, ref, shallowRef, onMounted} from "vue";
 // import {useDebounceRef} from "../debounceRef";
 import store from "../store";
 import "../assets/root.css"
-import {changeContent} from "../assets/changeContentNode";
+import {changeFontTag} from "../assets/changeFontTag";
 import {
   upload,
   pictureData,
@@ -13,6 +13,9 @@ import {
   handleSuccess,
   uploadFileError
 } from "../assets/pictureUpload";
+import { Plus } from '@element-plus/icons-vue'
+import '@wangeditor/editor/dist/css/style.css' // 引入 css
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 const { ctx } = getCurrentInstance()
 
 const data=reactive({
@@ -242,9 +245,52 @@ const inputEnd=()=>{
 //   console.log(e.srcElement.selectionStart) //光标所在的位置
 // }
 
+// 编辑器实例，必须用 shallowRef
+const editorRef = shallowRef()
+
+// 内容 HTML
+const valueHtml = ref('<p>hello</p>')
+
+const mode = 'default'
+
+// 模拟 ajax 异步获取内容
+onMounted(() => {
+  setTimeout(() => {
+    valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>'
+  }, 1500)
+})
+
+const toolbarConfig = {}
+const editorConfig = { placeholder: '请输入内容...' }
+
+// 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() => {
+  const editor = editorRef.value
+  if (editor == null) return
+  editor.destroy()
+})
+
+const handleCreated = (editor) => {
+  editorRef.value = editor // 记录 editor 实例，重要！
+}
 </script>
 
 <template>
+  <div style="border: 1px solid #ccc">
+    <Toolbar
+        style="border-bottom: 1px solid #ccc"
+        :editor="editorRef"
+        :defaultConfig="toolbarConfig"
+        :mode="mode"
+    />
+    <Editor
+        style="height: 500px; overflow-y: hidden;"
+        v-model="valueHtml"
+        :defaultConfig="editorConfig"
+        :mode="mode"
+        @onCreated="handleCreated"
+    />
+  </div>
 <!--  @keypress.enter="myEditorEnter($event)" 对换行操作进行自定义处理  @keyup="inputNow"input输入前执行方法-->
   <div class="textarea" ref="textarea" @blur="inputEnd" @input="data.debounceInput" v-html="getHref(data.content)" contentEditable="true" placeholder="请输入正文"/>
   <div class="textareaInput">
@@ -255,14 +301,14 @@ const inputEnd=()=>{
       <el-input v-model="linkUrl.url" placeholder="地址"></el-input>
       <el-input v-model="linkUrl.name" placeholder="链接名"></el-input>
       <el-button @click="uploadUrl">链接提交</el-button>
-      <el-button @click="changeContent('strong','STRONG')"></el-button>
-      <el-button @click="changeContent('em','EM')"></el-button>
+      <el-button @click="changeFontTag('strong','STRONG', 'EM')"></el-button>
+      <el-button @click="changeFontTag('em','EM', 'STRONG')"></el-button>
       <el-button @click="setContent">查看内容</el-button>
       <el-upload class="upload-demo" :class="{reached_the_limit: upload.isReachedTheLimit}" action="http://localhost:8002/img" :show-file-list="true" :headers="pictureData.headers" :on-remove="handleRemove"
                          :file-list="pictureData.fileList" list-type="picture-card" :limit="1" :on-exceed="handleExceed" :on-success="handleSuccess"
                          :on-error="uploadFileError" :on-preview="handlePictureCardPreview" :before-upload="beforeUpload">
         <img :src="pictureData.fileList" class="avatar"  alt=""/>
-        <el-icon class="avatar-uploader-icon"></el-icon>
+        <el-icon class="avatar-uploader-icon"><Plus/></el-icon>
       </el-upload>
     </div>
   </div>

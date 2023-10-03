@@ -1,9 +1,12 @@
 <template>
-
+<!--  <div contenteditable="true">contenteditable的div中的文字</div>-->
+<!--  <button @click="execCommandBold">内容加粗</button>-->
 </template>
 
 <script setup lang="ts">
-
+// const execCommandBold=()=>{
+//   document.execCommand('bold',false,null);
+// }
 </script>
 
 <style lang="scss">
