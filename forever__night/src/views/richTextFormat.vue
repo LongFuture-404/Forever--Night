@@ -2,7 +2,6 @@
 import {getCurrentInstance, nextTick, reactive, watch, onBeforeUnmount, ref, shallowRef, onMounted} from "vue";
 // import {useDebounceRef} from "../debounceRef";
 import store from "../store";
-import "../assets/root.css"
 import {changeFontTag} from "../assets/changeFontTag";
 import {
   upload,
@@ -301,8 +300,8 @@ const handleCreated = (editor) => {
       <el-input v-model="linkUrl.url" placeholder="地址"></el-input>
       <el-input v-model="linkUrl.name" placeholder="链接名"></el-input>
       <el-button @click="uploadUrl">链接提交</el-button>
-      <el-button @click="changeFontTag('strong','STRONG', 'EM')"></el-button>
-      <el-button @click="changeFontTag('em','EM', 'STRONG')"></el-button>
+      <el-button @click="changeFontTag('strong', 'em')"></el-button>
+      <el-button @click="changeFontTag('em', 'strong')"></el-button>
       <el-button @click="setContent">查看内容</el-button>
       <el-upload class="upload-demo" :class="{reached_the_limit: upload.isReachedTheLimit}" action="http://localhost:8002/img" :show-file-list="true" :headers="pictureData.headers" :on-remove="handleRemove"
                          :file-list="pictureData.fileList" list-type="picture-card" :limit="1" :on-exceed="handleExceed" :on-success="handleSuccess"

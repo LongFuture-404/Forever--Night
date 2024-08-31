@@ -10,7 +10,6 @@ import java.util.List;
 @Resource(name = "UserDao")
 public interface UserDao {
     User findUser(String userId);
-
     void registerUser(String userId,String password);
     List<User> getUser(String userName);
 }

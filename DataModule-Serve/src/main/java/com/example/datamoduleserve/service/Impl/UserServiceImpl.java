@@ -15,12 +15,13 @@ public class UserServiceImpl implements UserService {
 
     @Resource(name = "userDao")
     UserDao userDao;
+
     @Transactional
     public User FindUser(String userId){
         try{
             return userDao.findUser(userId);
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
         try{
             userDao.registerUser(inputUser.getUserid(), inputUser.getPassword());
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
     @Transactional
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         try{
             return userDao.getUser(userName);
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return null;
         }
     }

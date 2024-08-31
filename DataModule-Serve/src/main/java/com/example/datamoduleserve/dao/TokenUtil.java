@@ -15,7 +15,7 @@ public class TokenUtil {
     /**
      * 签名生成
      * @param user
-     * @return
+     * @return token
      */
     public static String sign(User user){
         String token = null;
@@ -44,7 +44,6 @@ public class TokenUtil {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).withIssuer("auth0").build();
             DecodedJWT jwt = verifier.verify(token);
             System.err.println("认证通过：");
-            System.err.println("userId: " + jwt.getClaim("userId").asString());
             System.err.println("userName: " + jwt.getClaim("userName").asString());
             System.err.println("过期时间：      " + jwt.getExpiresAt());
             return true;

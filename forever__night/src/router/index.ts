@@ -15,10 +15,30 @@ const originalPush = axios.push;
 axios.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 }
+//vite使用import.meta.glob('../views/**/page.js',{eager:true,import:'default',})
+//webpack使用require.context('../**/',false,'page.js')
+// const pages = require.context('../**/**',false,'page.js');
+// const pageComps = require.context('../**/**',false,'index.vue');
+/**
+ * 自动加载路由，优化开发效率
+ */
+// const routes = Object.entries(pages).map(( [path,meta])=>{
+//     const pageJSPath = path;
+//     path = path.replace( '../views', '' ).replace('/page.js', '');
+//     path = path || '/ ';
+//     const name = path.split('/').filter(Boolean).join('-') || 'index' ;
+//     const compPath = pageJSPath.replace( 'page.js', 'index.vue');
+//     return {
+//         path,
+//         name,
+//         component: pageComps[compPath],
+//         meta,
+//     };
+// });
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
 })
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth) {

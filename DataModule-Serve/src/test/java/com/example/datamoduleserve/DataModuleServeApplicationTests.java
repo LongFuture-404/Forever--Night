@@ -1,10 +1,10 @@
-package com.example.webmoduleui;
+package com.example.datamoduleserve;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoUIApplicationTests {
+class DataModuleServeApplicationTests {
 
 	@Test
 	void contextLoads() {

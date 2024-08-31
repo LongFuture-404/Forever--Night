@@ -9,6 +9,23 @@ system:
             path: /view/
 server:
   port: 8002
+logging:
+#  group:
+#    comUI: com.example.webmoduleui,com.example.datamoduleserve
+  level:
+    root: warn
+    com:
+      example:
+        webmoduleui: info
+  #    comUI: warn
+  file:
+#    path: F:\University Study\UniversityCode Study\JAVA\ForeverNight\Forever--Night
+    name: MyLog.log
+  pattern:
+#    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){yellow} %clr([%thread]){red}  %highlight(%-5level) %logger{50} -%msg%n"
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}[%line] - %msg%n'
+#    file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){yellow} === %clr([%thread]){red} == %highlight(%-5level) == %logger{50} == %msg%n"
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}[%line] - %msg%n'
 spring:
   datasource:
     username: root
@@ -17,8 +34,10 @@ spring:
     #    password: 123456
     #    url: jdbc:mysql://10.26.10.181:3306/intelligent-scheduling?serverTimeZone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   thymeleaf:
     cache: false
+
   mvc:
   servlet:
     multipart:
@@ -28,7 +47,7 @@ spring:
       #设置多个文件大小为100MB
 
   application:
-    name: Demo-UI
+    name: WebModule-UI
 
   data:
     redis:
@@ -37,11 +56,11 @@ spring:
       database: 0
 
 mybatis-plus:
-    type-aliases-package: com.example.demoserve.entity
+    type-aliases-package: com.example.webmoduleui.entity
     mapper-locations: classpath*:/mapper/*.xml
 
 
 eureka:
-    client:
-        service-url:
-            defaultZone: http://localhost:8761/eureka
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

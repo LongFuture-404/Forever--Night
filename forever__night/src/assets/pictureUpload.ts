@@ -14,7 +14,7 @@ export const pictureData=reactive({
     image:['http://localhost:8002/view/1528961685699.png','http://localhost:8002/view/1522571423608.png'],
     visible: false
 })
-export function handleSuccess(res, file, fileList) {
+export function handleSuccess(res, file, fileList:[]) {
     let imageUrl = "http://localhost:8002/view/" + file.name;
     pictureData.imageUrl = imageUrl;
     let obj = {url:'',name:''};
@@ -23,17 +23,17 @@ export function handleSuccess(res, file, fileList) {
     pictureData.fileList.push(obj);
     ElMessage({message: "头像图片上传成功",type:"success"});
 }
-export function handleRemove(file, fileList) {
+export function handleRemove(file, fileList:[]) {
     pictureData.fileList = [];
     pictureData.imageUrl = '';
     upload.isReachedTheLimit=false
     console.log(fileList);
     console.log(pictureData.imageUrl);
 }
-export function handleExceed(files, fileList){
+export function handleExceed(files, fileList:[]){
     ElMessage({message: "上传文件个数不能超过1个"});
 }
-export function uploadFileError(files, fileList){
+export function uploadFileError(files, fileList:[]){
     if(pictureData.fileList.length==0){
         upload.isReachedTheLimit=false
     }
@@ -46,8 +46,8 @@ export function beforeUpload(file) {
         ElMessage({message: "上传文件类型仅支持png格式"});
     }
 }
-
-export function handlePictureCardPreview (uploadFile) {
+// const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {}
+export function handlePictureCardPreview(uploadFile) {
     console.log(uploadFile)
     upload.dialogImageUrl = uploadFile.url!
     upload.dialogVisible = true

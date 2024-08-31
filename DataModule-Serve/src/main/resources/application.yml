@@ -13,10 +13,10 @@ spring:
     cache: false
 
   application:
-    name: Demo-Serve
+    name: DataModule-Serve
 
 mybatis-plus:
-    type-aliases-package: com.example.demoserve.entity
+    type-aliases-package: com.example.datamoduleserve.entity
     mapper-locations: classpath:mapper/**.xml
 
 eureka:

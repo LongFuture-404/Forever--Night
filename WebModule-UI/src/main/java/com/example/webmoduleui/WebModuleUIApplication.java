@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"com.example.datamoduleserve.feign"})
 @MapperScan(basePackages ="com.example.*.mapper")
-public class DemoUIApplication {
+public class WebModuleUIApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoUIApplication.class, args);
+		SpringApplication.run(WebModuleUIApplication.class, args);
 	}
 
 }

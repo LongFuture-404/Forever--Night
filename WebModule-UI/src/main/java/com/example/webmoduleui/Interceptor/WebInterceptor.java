@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -24,6 +25,10 @@ public class WebInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println(request.getRequestURI());
+        /**
+         * 通过Feign接口异步传递token参数
+         */
+        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
         // 放行OPTIONS请求
         if (request.getMethod().equals(RequestMethod.OPTIONS.name())) {
             return true;
@@ -71,3 +76,28 @@ public class WebInterceptor implements HandlerInterceptor {
     }
 }
 
+///**
+// *@author
+// *@description 上下文装饰器
+// * 同模块下异步跨线程传递ThreadLocal对象
+// */
+//public class ContextTaskDecorator implements TaskDecorator {
+//    @Override
+//    public Runnable decorate(Runnable runnable) {
+//        //获取父线程的LoginUser
+//        LoginUser loginUser = UserContextHolder.currentLoginUser();
+//        return () -> {
+//            try {
+//                // 将主线程的请求信息，设置到子线程中
+//                UserContextHolder.set(loginUser);
+//                // 执行子线程，这一步不要忘了
+//                runnable.run();
+//            } finally {
+//                // 线程结束，清空这些信息，否则可能造成内存泄漏
+//                UserContextHolder.shutdown();
+//            }
+//        };
+//    }
+//}
+////用于解决父子线程间的数据共享
+//executor.setTaskDecorator(new ContextTaskDecorator());

@@ -53,10 +53,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>edge-SNAPSHOT</version> <!--这个版本是关键-->
+		</dependency>
     </dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -100,6 +101,10 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>projectlombok.org</id>
+			<url>https://projectlombok.org/edge-releases</url>
 		</repository>
 	</repositories>
 

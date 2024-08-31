@@ -5,6 +5,7 @@ import router from './router';
 import $ from 'jquery'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
+import './assets/root.css'
 // @ts-ignore
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'

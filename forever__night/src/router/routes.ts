@@ -8,7 +8,7 @@ import rolePage from '../views/rolePage.vue'
 const routes = [
     { path: '/', meta:{title: '登录页面'}, component: userLogin },
     { path: '/index', meta:{requiresAuth: true,title: '主页面'}, component: index,children:{
-            path: '/richTextFormat', component: richTextFormat
+            path: 'richTextFormat', component: richTextFormat
         } },
     { path: '/register', meta:{requiresAuth: true,title: '用户管理页面'}, component: register },
     { path: '/white', meta:{title: '空白页面'}, component: whiteHtml },

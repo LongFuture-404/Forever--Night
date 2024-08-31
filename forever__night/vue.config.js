@@ -10,10 +10,19 @@ module.exports = defineConfig({
   transpileDependencies: true,
   publicPath: './',
   runtimeCompiler: true,
+  css: {
+    // css预设器配置项
+    loaderOptions: {
+      sass: {
+        additionalData: `@import "@/assets/global.scss";` //引入全局变量
+      }
+    }
+  },
   devServer: {
     // host: 'zcl.forevernight.com',
     port: 80,
     allowedHosts: 'all',
+    // allowedHosts: ['zcl.forevernight.com'],
     historyApiFallback: true,
     proxy: {
       '/api': {
